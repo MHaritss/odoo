@@ -24,7 +24,7 @@
                         <field name="nis"/>
                         <field name="kelas_id"/>
                         <field name="guru_id"/>
-                        <field name="phone"/>
+                        <field name="phone" widget="phone"/>
                         <field name="address"/>
                         <field name="active"/>
                     </group>

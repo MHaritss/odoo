@@ -49,6 +49,23 @@
             <field name="guru_id" ref="smk_karanganyar_demo_guru_eka"/>
         </record>
 
+        <!-- Link teachers to classes -->
+        <record id="smk_karanganyar_demo_guru_andi" model="smk.guru">
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_akuntansi')])]"/>
+        </record>
+        <record id="smk_karanganyar_demo_guru_budi" model="smk.guru">
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_rpl')])]"/>
+        </record>
+        <record id="smk_karanganyar_demo_guru_citra" model="smk.guru">
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_tkj')])]"/>
+        </record>
+        <record id="smk_karanganyar_demo_guru_deni" model="smk.guru">
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_teknik')])]"/>
+        </record>
+        <record id="smk_karanganyar_demo_guru_eka" model="smk.guru">
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_multimedia')])]"/>
+        </record>
+
         <!-- Dummy students -->
         <record id="smk_karanganyar_demo_siswa_01" model="smk.siswa">
             <field name="name">Rizky Aditya</field>

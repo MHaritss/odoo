@@ -9,7 +9,13 @@ class SmkGuru(models.Model):
     name = fields.Char(string='Nama', required=True, tracking=True)
     address = fields.Text(string='Alamat')
     phone = fields.Char(string='Nomor Telepon', required=True, tracking=True)
-    kelas_ids = fields.One2many('smk.kelas', 'guru_id', string='Kelas')
+    kelas_ids = fields.Many2many(
+        'smk.kelas',
+        'smk_guru_kelas_rel',
+        'guru_id',
+        'kelas_id',
+        string='Kelas Diajarkan',
+    )
     siswa_ids = fields.One2many('smk.siswa', 'guru_id', string='Siswa')
     student_count = fields.Integer(
         string='Jumlah Siswa',
@@ -22,17 +28,20 @@ class SmkGuru(models.Model):
         ('unique_phone', 'unique(phone)', 'Nomor telepon guru harus unik.'),
     ]
 
-    @api.depends('siswa_ids.active')
+    @api.depends('kelas_ids.siswa_ids.active', 'siswa_ids.active')
     def _compute_student_count(self):
         for guru in self:
-            guru.student_count = len(guru.siswa_ids.filtered(lambda s: s.active))
+            students = (guru.kelas_ids.mapped('siswa_ids') | guru.siswa_ids).filtered(lambda s: s.active)
+            guru.student_count = len(set(students.ids))
 
     def action_activate_students(self):
         self.ensure_one()
-        self.siswa_ids.write({'active': True})
+        students = self.kelas_ids.mapped('siswa_ids') | self.siswa_ids
+        students.write({'active': True})
         return True
 
     def action_deactivate_students(self):
         self.ensure_one()
-        self.siswa_ids.write({'active': False})
+        students = self.kelas_ids.mapped('siswa_ids') | self.siswa_ids
+        students.write({'active': False})
         return True
