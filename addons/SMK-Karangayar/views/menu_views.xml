@@ -1,8 +1,0 @@
-<odoo>
-    <menuitem id="menu_smk_root" name="SMK Karanganyar" sequence="10"/>
-
-    <menuitem id="menu_smk_guru" name="Guru" parent="menu_smk_root" action="action_smk_guru" sequence="10"/>
-    <menuitem id="menu_smk_siswa" name="Siswa" parent="menu_smk_root" action="action_smk_siswa" sequence="20"/>
-    <menuitem id="menu_smk_kelas" name="Kelas" parent="menu_smk_root" action="action_smk_kelas" sequence="30"/>
-    <menuitem id="menu_smk_invoice" name="Tagihan" parent="menu_smk_root" action="action_smk_invoice" sequence="40"/>
-</odoo>

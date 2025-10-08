@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_smk_guru_user,access.smk.guru,model_smk_guru,base.group_user,1,1,1,1
-access_smk_siswa_user,access.smk.siswa,model_smk_siswa,base.group_user,1,1,1,1
-access_smk_kelas_user,access.smk.kelas,model_smk_kelas,base.group_user,1,1,1,1
-access_smk_invoice_user,access.smk.invoice,model_smk_invoice,base.group_user,1,1,1,1
