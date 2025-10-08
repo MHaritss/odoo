@@ -1,0 +1,20 @@
+<odoo>
+    <report
+        id="report_smk_guru"
+        model="smk.guru"
+        string="Daftar Guru"
+        report_type="qweb-pdf"
+        name="SMK-Karangayar.report_smk_guru_document"
+        file="SMK-Karangayar.report_smk_guru_document"
+    />
+
+    <report
+        id="report_smk_kwitansi"
+        model="smk.invoice"
+        string="Kwitansi Pembayaran"
+        report_type="qweb-pdf"
+        name="SMK-Karangayar.report_smk_kwitansi_document"
+        file="SMK-Karangayar.report_smk_kwitansi_document"
+        print_report_name="(object.name or 'Kwitansi')"
+    />
+</odoo>

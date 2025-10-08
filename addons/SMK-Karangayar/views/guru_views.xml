@@ -1,0 +1,58 @@
+<odoo>
+    <record id="view_smk_guru_tree" model="ir.ui.view">
+        <field name="name">smk.guru.tree</field>
+        <field name="model">smk.guru</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="student_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_smk_guru_form" model="ir.ui.view">
+        <field name="name">smk.guru.form</field>
+        <field name="model">smk.guru</field>
+        <field name="arch" type="xml">
+            <form string="Guru">
+                <header>
+                    <button name="action_activate_students" type="object" class="btn-primary" string="Aktifkan Semua Siswa"/>
+                    <button name="action_deactivate_students" type="object" class="btn-secondary" string="Nonaktifkan Semua Siswa"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="phone"/>
+                        <field name="address"/>
+                        <field name="student_count" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Kelas">
+                            <field name="kelas_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Siswa">
+                            <field name="siswa_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="kelas_id"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_smk_guru" model="ir.actions.act_window">
+        <field name="name">Guru</field>
+        <field name="res_model">smk.guru</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
