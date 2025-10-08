@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_smk_siswa_tree" model="ir.ui.view">
+        <field name="name">smk.siswa.tree</field>
+        <field name="model">smk.siswa</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="nis"/>
+                <field name="guru_id"/>
+                <field name="kelas_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_smk_siswa_form" model="ir.ui.view">
+        <field name="name">smk.siswa.form</field>
+        <field name="model">smk.siswa</field>
+        <field name="arch" type="xml">
+            <form string="Siswa">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="nis"/>
+                        <field name="kelas_id"/>
+                        <field name="guru_id"/>
+                        <field name="phone"/>
+                        <field name="address"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_smk_siswa" model="ir.actions.act_window">
+        <field name="name">Siswa</field>
+        <field name="res_model">smk.siswa</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
