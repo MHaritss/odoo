@@ -1,75 +1,109 @@
 <odoo>
     <template id="report_smk_kwitansi_document">
         <t t-call="web.html_container">
-            <t t-call="web.external_layout">
-                <t t-foreach="docs" t-as="doc">
-                    <div class="page">
-                        <div class="text-center">
-                            <h3>SMK Karanganyar</h3>
-                            <p>Jl. Lawu, Karanganyar</p>
-                            <p>Email: info@smk-karanganyar.sch.id | Telp: 0271-000000</p>
-                        </div>
-                        <h4 class="text-center">BUKTI PEMBAYARAN SISWA</h4>
-                        <table class="table table-sm">
-                            <tr>
-                                <td>No Trans</td>
-                                <td><span t-field="doc.name"/></td>
-                                <td>Tanggal</td>
-                                <td><span t-field="doc.date_invoice"/></td>
-                            </tr>
-                            <tr>
-                                <td>Nama Siswa</td>
-                                <td><span t-field="doc.student_id.name"/></td>
-                                <td>Kelas</td>
-                                <td><span t-field="doc.kelas_id.name"/></td>
-                            </tr>
-                            <tr>
-                                <td>Guru Pengajar</td>
-                                <td><span t-esc="', '.join(doc.teacher_ids.mapped('name')) or '-'"/></td>
-                                <td>Status</td>
-                                <td><span t-field="doc.state"/></td>
-                            </tr>
-                        </table>
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="print_dt" t-value="datetime.datetime.now()"/>
+                <div class="page o_smk_kwitansi" style="font-size:12px; color:#000;">
+                    <table style="width:100%; border-bottom:1px solid #000; padding-bottom:6px;">
+                        <tr>
+                            <td style="width:18%; vertical-align:top;">
+                                <div style="height:70px; width:70px; border:1px solid #000; text-align:center; line-height:70px; font-size:10px;">
+                                    LOGO
+                                </div>
+                            </td>
+                            <td style="vertical-align:top; padding-left:12px;">
+                                <div style="font-size:16px; font-weight:700;">SMK PENDA 2 KARANGANYAR</div>
+                                <div>Jl. Lawu, Hartosari, Popongan, Karanganyar, Jawa Tengah</div>
+                                <div>Telp. 0271-494-787 &nbsp;|&nbsp; Web: www.smkpenda2.sch.id &nbsp;|&nbsp; Email: info@smkpenda2.sch.id</div>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <table class="table table-bordered mt16">
-                            <thead>
-                                <tr>
-                                    <th style="width:5%">No.</th>
-                                    <th>Keterangan Pembayaran</th>
-                                    <th style="width:25%">Jumlah (Rp)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><span t-esc="doc.description or 'Pembayaran biaya pendidikan'"/></td>
-                                    <td class="text-right"><span t-field="doc.amount" widget="monetary" options="{'display_currency': doc.currency_id}"/></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="2" class="text-right"><strong>Total</strong></td>
-                                    <td class="text-right"><strong><span t-field="doc.amount" widget="monetary" options="{'display_currency': doc.currency_id}"/></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-
-                        <p><em>Terbilang:</em> <span t-esc="doc.currency_id.amount_to_text(doc.amount)"/></p>
-
-                        <div class="row mt32">
-                            <div class="col-6">
-                                <p>Mengetahui,</p>
-                                <p><span t-field="company.name"/></p>
-                            </div>
-                            <div class="col-6 text-right">
-                                <p>Karanganyar, <span t-esc="doc.date_invoice"/></p>
-                                <p>Yang Menerima,</p>
-                                <br/><br/>
-                                <p>_______________________</p>
-                            </div>
-                        </div>
+                    <div style="text-align:center; font-weight:700; font-size:14px; margin:12px 0;">
+                        BUKTI PEMBAYARAN SISWA
                     </div>
-                </t>
+
+                    <table style="width:100%; border:1px solid #000; border-collapse:collapse; margin-bottom:10px;">
+                        <tr>
+                            <td style="width:18%; padding:4px;">NO TRANS</td>
+                            <td style="width:32%; padding:4px;">: <span t-field="doc.name"/></td>
+                            <td style="width:18%; padding:4px;">NIS</td>
+                            <td style="width:32%; padding:4px;">: <span t-esc="doc.student_id.nis or '-'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px;">TANGGAL</td>
+                            <td style="padding:4px;">: <span t-esc="format_date(doc.date_invoice)"/></td>
+                            <td style="padding:4px;">NAMA SISWA</td>
+                            <td style="padding:4px;">: <span t-esc="doc.student_id.name or '-'"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px;">JAM CETAK</td>
+                            <td style="padding:4px;">: <span t-esc="format_datetime(print_dt, tz=doc.env.user.tz or 'UTC').split(' ')[1]"/></td>
+                            <td style="padding:4px;">KELAS</td>
+                            <td style="padding:4px;">: <span t-esc="doc.kelas_id.name or '-'"/></td>
+                        </tr>
+                    </table>
+
+                    <table style="width:100%; border:1px solid #000; border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th style="width:8%; padding:6px; border-right:1px solid #000; text-align:center;">No.</th>
+                                <th style="padding:6px; border-right:1px solid #000;">Keterangan Pembayaran</th>
+                                <th style="width:22%; padding:6px; text-align:right;">Jumlah (Rp.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:6px; border-top:1px solid #000; border-right:1px solid #000; text-align:center;">1</td>
+                                <td style="padding:6px; border-top:1px solid #000; border-right:1px solid #000;">
+                                    <span t-esc="doc.description or 'Pembayaran biaya pendidikan'"/>
+                                </td>
+                                <td style="padding:6px; border-top:1px solid #000; text-align:right;">
+                                    <span t-field="doc.amount" widget="monetary" options="{'display_currency': doc.currency_id}"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" style="padding:6px; border-top:1px solid #000; border-right:1px solid #000; text-align:right; font-weight:700;">Grand Total :</td>
+                                <td style="padding:6px; border-top:1px solid #000; text-align:right; font-weight:700;">
+                                    <span t-field="doc.amount" widget="monetary" options="{'display_currency': doc.currency_id}"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <table style="width:100%; margin:12px 0;">
+                        <tr>
+                            <td style="width:15%; font-weight:700;">Terbilang</td>
+                            <td style="font-style:italic;">: <span t-esc="doc.currency_id.amount_to_text(doc.amount)"/></td>
+                        </tr>
+                    </table>
+
+                    <div style="margin-top:8px;">
+                        <div style="font-weight:700;">Catatan :</div>
+                        <ul style="margin:4px 0 12px 18px; padding:0;">
+                            <li>Disimpan sebagai bukti pembayaran yang sah.</li>
+                            <li>Uang yang sudah dibayarkan tidak dapat diminta kembali.</li>
+                        </ul>
+                    </div>
+
+                    <table style="width:100%; margin-top:18px;">
+                        <tr>
+                            <td style="width:55%; vertical-align:top;">
+                                <div>Mengetahui,</div>
+                                <div><span t-esc="doc.env.company.name"/></div>
+                            </td>
+                            <td style="vertical-align:top; text-align:center;">
+                                <div>Karanganyar, <span t-esc="format_date(print_dt)"/></div>
+                                <div>Yang Menerima,</div>
+                                <div style="margin:48px 0 12px; font-weight:700; text-transform:uppercase;">
+                                    <span>_______________________</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </t>
         </t>
     </template>
