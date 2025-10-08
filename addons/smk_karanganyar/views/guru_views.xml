@@ -26,24 +26,9 @@
                         <field name="phone" widget="phone"/>
                         <field name="address"/>
                         <field name="student_count" readonly="1"/>
+                        <field name="kelas_ids" widget="many2many_tags" readonly="1" options="{'no_create': True, 'no_create_edit': True}"></field>
                     </group>
-                    <notebook>
-                        <page string="Kelas">
-                            <field name="kelas_ids">
-                                <tree editable="bottom">
-                                    <field name="name"/>
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="name"/>
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
-                        <page string="Siswa Diajar">
-                            <field name="teaching_student_ids" widget="many2many_tags"/>
-                        </page>
-                    </notebook>
+
                 </sheet>
             </form>
         </field>
