@@ -1,0 +1,22 @@
+{
+    'name': 'SMK Karanganyar',
+    'version': '16.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Manajemen guru, siswa, kelas, dan tagihan SMK Karanganyar',
+    'author': 'Custom',
+    'depends': ['base', 'mail'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'data/cron.xml',
+        'report/report.xml',
+        'report/guru_report_templates.xml',
+        'report/kwitansi_report_templates.xml',
+        'views/guru_views.xml',
+        'views/siswa_views.xml',
+        'views/kelas_views.xml',
+        'views/invoice_views.xml',
+        'views/menu_views.xml',
+    ],
+    'application': True,
+}
