@@ -2,8 +2,8 @@
     <template id="report_smk_kwitansi_document">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-set="print_date" t-value="doc.env.context.get('print_date') or '-'"/>
-                <t t-set="print_time" t-value="doc.env.context.get('print_time') or '-'"/>
+                <t t-set="print_date" t-value="print_date or '-'"/>
+                <t t-set="print_time" t-value="print_time or '-'"/>
                 <t t-set="teacher_names" t-value="', '.join(doc.teacher_ids.mapped('name')) or '-'"/>
                 <t t-call="web.external_layout">
                     <div class="page">
@@ -108,7 +108,7 @@
                             <div class="col-6 text-end">
                                 <p>Karanganyar, <span t-esc="print_date"/></p>
                                 <p>Yang Menerima,</p>
-                                <div style="margin-top:60px; font-weight:600;">_______________________</div>
+                                <div style="margin-top:60px; font-weight:600;">Widiya Nanda Gardhea Putri, S.Pd.</div>
                             </div>
                         </div>
                     </div>

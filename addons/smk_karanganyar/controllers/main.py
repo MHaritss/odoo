@@ -7,7 +7,7 @@ from odoo.http import request
 
 
 class SmkApiController(http.Controller):
-    @http.route('/api/smk/guru', type='json', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/smk/guru', type='http', auth='user', methods=['GET'], csrf=False)
     def api_get_guru(self, **kwargs):
         gurus = request.env['smk.guru'].sudo().search([])
         data = []

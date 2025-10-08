@@ -1,6 +1,6 @@
 from datetime import date
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 try:
@@ -67,13 +67,7 @@ class SmkInvoice(models.Model):
     def action_print_kwitansi(self):
         if any(invoice.state != 'paid' for invoice in self):
             raise UserError('Kwitansi hanya dapat dicetak jika status tagihan Paid.')
-        timestamp = fields.Datetime.context_timestamp(self, fields.Datetime.now())
-        ctx = dict(self.env.context or {})
-        ctx.update({
-            'print_date': timestamp.strftime('%d/%m/%Y'),
-            'print_time': timestamp.strftime('%H:%M:%S'),
-        })
-        return self.env.ref('smk_karanganyar.report_smk_kwitansi').with_context(ctx).report_action(self)
+        return self.env.ref('smk_karanganyar.report_smk_kwitansi').report_action(self)
 
     @api.model
     def cron_create_monthly_invoice(self):
