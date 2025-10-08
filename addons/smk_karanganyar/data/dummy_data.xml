@@ -102,30 +102,35 @@
             <field name="amount">250000.0</field>
             <field name="date_invoice">2024-01-15</field>
             <field name="description">SPP Januari 2024</field>
+            <field name="currency_id" eval="ref('base.IDR')"/>
         </record>
         <record id="smk_karanganyar_demo_invoice_02" model="smk.invoice">
             <field name="student_id" ref="smk_karanganyar_demo_siswa_02"/>
             <field name="amount">250000.0</field>
             <field name="date_invoice">2024-01-15</field>
             <field name="description">SPP Januari 2024</field>
+            <field name="currency_id" eval="ref('base.IDR')"/>
         </record>
         <record id="smk_karanganyar_demo_invoice_03" model="smk.invoice">
             <field name="student_id" ref="smk_karanganyar_demo_siswa_03"/>
             <field name="amount">250000.0</field>
             <field name="date_invoice">2024-01-15</field>
             <field name="description">SPP Januari 2024</field>
+            <field name="currency_id" eval="ref('base.IDR')"/>
         </record>
         <record id="smk_karanganyar_demo_invoice_04" model="smk.invoice">
             <field name="student_id" ref="smk_karanganyar_demo_siswa_04"/>
             <field name="amount">250000.0</field>
             <field name="date_invoice">2024-01-15</field>
             <field name="description">SPP Januari 2024</field>
+            <field name="currency_id" eval="ref('base.IDR')"/>
         </record>
         <record id="smk_karanganyar_demo_invoice_05" model="smk.invoice">
             <field name="student_id" ref="smk_karanganyar_demo_siswa_05"/>
             <field name="amount">250000.0</field>
             <field name="date_invoice">2024-01-15</field>
             <field name="description">SPP Januari 2024</field>
+            <field name="currency_id" eval="ref('base.IDR')"/>
         </record>
     </data>
 </odoo>
