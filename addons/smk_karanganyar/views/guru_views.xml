@@ -19,6 +19,7 @@
                 <header>
                     <button name="action_activate_students" type="object" class="btn-primary" string="Aktifkan Semua Siswa"/>
                     <button name="action_deactivate_students" type="object" class="btn-secondary" string="Nonaktifkan Semua Siswa"/>
+                    <button name="action_print_teacher_report" type="object" class="btn-secondary" string="Cetak Daftar Guru" context="{'discard_logo_check': True}"/>
                 </header>
                 <sheet>
                     <group>
@@ -28,11 +29,11 @@
                         <field name="student_count" readonly="1"/>
                         <field name="kelas_ids" widget="many2many_tags" readonly="1" options="{'no_create': True, 'no_create_edit': True}"></field>
                     </group>
-                    <notebook>
+                    <!-- <notebook>
                         <page string="Siswa Diajar">
                             <field name="teaching_student_ids" widget="many2many_tags"/>
                         </page>
-                    </notebook>
+                    </notebook> -->
                 </sheet>
             </form>
         </field>

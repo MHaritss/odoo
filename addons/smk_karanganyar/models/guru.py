@@ -51,3 +51,6 @@ class SmkGuru(models.Model):
         students = self.kelas_ids.mapped('siswa_ids') | self.teaching_student_ids
         students.write({'active': False})
         return True
+
+    def action_print_teacher_report(self):
+        return self.env.ref('smk_karanganyar.report_smk_guru').report_action(self)

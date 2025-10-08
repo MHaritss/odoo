@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class SmkKelas(models.Model):
@@ -20,3 +21,12 @@ class SmkKelas(models.Model):
         'siswa_id',
         string='Siswa',
     )
+
+    @api.constrains('guru_ids')
+    def _check_guru_limits(self):
+        for kelas in self:
+            count = len(kelas.guru_ids)
+            if count < 1:
+                raise ValidationError('Setiap kelas wajib memiliki minimal satu guru pengajar.')
+            if count > 3:
+                raise ValidationError('Setiap kelas maksimal memiliki tiga guru pengajar.')
