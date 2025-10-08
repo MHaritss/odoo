@@ -9,6 +9,7 @@
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/cron.xml',
+        'data/dummy_data.xml',
         'report/report.xml',
         'report/guru_report_templates.xml',
         'report/kwitansi_report_templates.xml',

@@ -1,0 +1,126 @@
+<odoo>
+    <data noupdate="0">
+        <!-- Dummy teachers -->
+        <record id="smk_karanganyar_demo_guru_andi" model="smk.guru">
+            <field name="name">Andi Suryanto</field>
+            <field name="address">Jl. Merdeka No. 10, Karanganyar</field>
+            <field name="phone">0812001001</field>
+        </record>
+        <record id="smk_karanganyar_demo_guru_budi" model="smk.guru">
+            <field name="name">Budi Hartono</field>
+            <field name="address">Jl. Kenanga No. 5, Karanganyar</field>
+            <field name="phone">0812001002</field>
+        </record>
+        <record id="smk_karanganyar_demo_guru_citra" model="smk.guru">
+            <field name="name">Citra Lestari</field>
+            <field name="address">Jl. Melati No. 7, Karanganyar</field>
+            <field name="phone">0812001003</field>
+        </record>
+        <record id="smk_karanganyar_demo_guru_deni" model="smk.guru">
+            <field name="name">Deni Pratama</field>
+            <field name="address">Jl. Diponegoro No. 12, Karanganyar</field>
+            <field name="phone">0812001004</field>
+        </record>
+        <record id="smk_karanganyar_demo_guru_eka" model="smk.guru">
+            <field name="name">Eka Wulandari</field>
+            <field name="address">Jl. Rajawali No. 3, Karanganyar</field>
+            <field name="phone">0812001005</field>
+        </record>
+
+        <!-- Dummy classes -->
+        <record id="smk_karanganyar_demo_kelas_akuntansi" model="smk.kelas">
+            <field name="name">X Akuntansi 1</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_andi"/>
+        </record>
+        <record id="smk_karanganyar_demo_kelas_rpl" model="smk.kelas">
+            <field name="name">XI RPL 2</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_budi"/>
+        </record>
+        <record id="smk_karanganyar_demo_kelas_tkj" model="smk.kelas">
+            <field name="name">XII TKJ 1</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_citra"/>
+        </record>
+        <record id="smk_karanganyar_demo_kelas_teknik" model="smk.kelas">
+            <field name="name">XI Teknik Mesin</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_deni"/>
+        </record>
+        <record id="smk_karanganyar_demo_kelas_multimedia" model="smk.kelas">
+            <field name="name">X Multimedia</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_eka"/>
+        </record>
+
+        <!-- Dummy students -->
+        <record id="smk_karanganyar_demo_siswa_01" model="smk.siswa">
+            <field name="name">Rizky Aditya</field>
+            <field name="nis">NIS2024001</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_andi"/>
+            <field name="kelas_id" ref="smk_karanganyar_demo_kelas_akuntansi"/>
+            <field name="phone">0812300001</field>
+            <field name="address">Jl. Cemara No. 2, Karanganyar</field>
+        </record>
+        <record id="smk_karanganyar_demo_siswa_02" model="smk.siswa">
+            <field name="name">Siti Kurnia</field>
+            <field name="nis">NIS2024002</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_budi"/>
+            <field name="kelas_id" ref="smk_karanganyar_demo_kelas_rpl"/>
+            <field name="phone">0812300002</field>
+            <field name="address">Jl. Flamboyan No. 8, Karanganyar</field>
+        </record>
+        <record id="smk_karanganyar_demo_siswa_03" model="smk.siswa">
+            <field name="name">Dewi Anggraini</field>
+            <field name="nis">NIS2024003</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_citra"/>
+            <field name="kelas_id" ref="smk_karanganyar_demo_kelas_tkj"/>
+            <field name="phone">0812300003</field>
+            <field name="address">Jl. Mawar No. 4, Karanganyar</field>
+        </record>
+        <record id="smk_karanganyar_demo_siswa_04" model="smk.siswa">
+            <field name="name">Fajar Nugroho</field>
+            <field name="nis">NIS2024004</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_deni"/>
+            <field name="kelas_id" ref="smk_karanganyar_demo_kelas_teknik"/>
+            <field name="phone">0812300004</field>
+            <field name="address">Jl. Anggrek No. 11, Karanganyar</field>
+        </record>
+        <record id="smk_karanganyar_demo_siswa_05" model="smk.siswa">
+            <field name="name">Lia Prameswari</field>
+            <field name="nis">NIS2024005</field>
+            <field name="guru_id" ref="smk_karanganyar_demo_guru_eka"/>
+            <field name="kelas_id" ref="smk_karanganyar_demo_kelas_multimedia"/>
+            <field name="phone">0812300005</field>
+            <field name="address">Jl. Kamboja No. 9, Karanganyar</field>
+        </record>
+
+        <!-- Dummy invoices -->
+        <record id="smk_karanganyar_demo_invoice_01" model="smk.invoice">
+            <field name="student_id" ref="smk_karanganyar_demo_siswa_01"/>
+            <field name="amount">250000.0</field>
+            <field name="date_invoice">2024-01-15</field>
+            <field name="description">SPP Januari 2024</field>
+        </record>
+        <record id="smk_karanganyar_demo_invoice_02" model="smk.invoice">
+            <field name="student_id" ref="smk_karanganyar_demo_siswa_02"/>
+            <field name="amount">250000.0</field>
+            <field name="date_invoice">2024-01-15</field>
+            <field name="description">SPP Januari 2024</field>
+        </record>
+        <record id="smk_karanganyar_demo_invoice_03" model="smk.invoice">
+            <field name="student_id" ref="smk_karanganyar_demo_siswa_03"/>
+            <field name="amount">250000.0</field>
+            <field name="date_invoice">2024-01-15</field>
+            <field name="description">SPP Januari 2024</field>
+        </record>
+        <record id="smk_karanganyar_demo_invoice_04" model="smk.invoice">
+            <field name="student_id" ref="smk_karanganyar_demo_siswa_04"/>
+            <field name="amount">250000.0</field>
+            <field name="date_invoice">2024-01-15</field>
+            <field name="description">SPP Januari 2024</field>
+        </record>
+        <record id="smk_karanganyar_demo_invoice_05" model="smk.invoice">
+            <field name="student_id" ref="smk_karanganyar_demo_siswa_05"/>
+            <field name="amount">250000.0</field>
+            <field name="date_invoice">2024-01-15</field>
+            <field name="description">SPP Januari 2024</field>
+        </record>
+    </data>
+</odoo>
