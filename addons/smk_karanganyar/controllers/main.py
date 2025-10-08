@@ -1,11 +1,13 @@
 import json
 
+from werkzeug.exceptions import BadRequest
+
 from odoo import http
 from odoo.http import request
 
 
 class SmkApiController(http.Controller):
-    @http.route('/api/smk/guru', type='http', auth='user', methods=['GET'], csrf=False)
+    @http.route('/api/smk/guru', type='json', auth='public', methods=['GET'], csrf=False)
     def api_get_guru(self, **kwargs):
         gurus = request.env['smk.guru'].sudo().search([])
         data = []
@@ -32,47 +34,41 @@ class SmkApiController(http.Controller):
         headers = [('Content-Type', 'application/json')]
         return request.make_response(body, headers=headers)
 
-    @http.route('/api/smk/siswa', type='json', auth='user', methods=['POST'], csrf=False)
-    def api_create_siswa(self, **payload):
-        required_fields = ['name']
-        missing = [field for field in required_fields if not payload.get(field)]
-        if missing:
-            return {'error': f"Field {', '.join(missing)} wajib diisi."}
+    @http.route('/api/smk/siswa', type='json', auth='public', methods=['POST'], csrf=False)
+    def api_create_siswa(self):
+        try:
+            payload = json.loads(request.httprequest.data or '{}')
+        except Exception as exc:
+            raise BadRequest('Payload harus berupa JSON yang valid.') from exc
 
-        kelas_ids = payload.get('kelas_ids') or []
-        primary_kelas_id = payload.get('kelas_id')
-        if primary_kelas_id and primary_kelas_id not in kelas_ids:
-            kelas_ids.append(primary_kelas_id)
-        if not primary_kelas_id and kelas_ids:
-            primary_kelas_id = kelas_ids[0]
+        name = payload.get('name')
+        kelas_id = payload.get('kelas_id')
+        if not name:
+            raise BadRequest('Field name wajib diisi.')
+        if not kelas_id:
+            raise BadRequest('Field kelas_id wajib diisi.')
 
-        if not primary_kelas_id:
-            return {'error': 'Minimal satu kelas wajib dipilih.'}
-
-        kelas_records = request.env['smk.kelas'].sudo().browse(kelas_ids)
-        if len(kelas_records) != len(kelas_ids):
-            return {'error': 'Sebagian kelas tidak ditemukan.'}
-
-        teacher_ids = payload.get('teacher_ids') or []
-        teacher_records = request.env['smk.guru'].sudo().browse(teacher_ids)
-        if len(teacher_records) != len(teacher_ids):
-            return {'error': 'Sebagian guru tidak ditemukan.'}
+        kelas = request.env['smk.kelas'].sudo().browse(int(kelas_id))
+        if not kelas:
+            raise BadRequest('Kelas tidak ditemukan.')
 
         siswa_vals = {
-            'name': payload.get('name'),
+            'name': name,
             'nis': payload.get('nis'),
-            'kelas_id': primary_kelas_id,
-            'kelas_ids': [(6, 0, kelas_ids)],
-            'teacher_ids': [(6, 0, teacher_ids)],
-            'phone': payload.get('phone'),
+            'kelas_id': kelas.id,
+            # 'kelas_ids': [(6, 0, [kelas.id])],
+            # 'phone': payload.get('phone'),
             'address': payload.get('address'),
         }
-
         siswa = request.env['smk.siswa'].sudo().create(siswa_vals)
-        return {
+
+        response_payload = {
             'id': siswa.id,
             'name': siswa.name,
             'kelas_id': siswa.kelas_id.id,
-            'kelas_ids': siswa.kelas_ids.ids,
-            'teacher_ids': siswa.teacher_ids.ids,
         }
+        body = json.dumps(response_payload)
+        headers = [('Content-Type', 'application/json')]
+        response = request.make_response(body, headers=headers)
+        response.status_code = 201
+        return response
