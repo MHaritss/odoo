@@ -23,9 +23,10 @@
                                     <td><span t-field="guru.student_count"/></td>
                                     <td>
                                         <ul>
-                                            <t t-foreach="guru.siswa_ids" t-as="siswa">
+                                            <t t-set="students" t-value="(guru.kelas_ids.mapped('siswa_ids') | guru.teaching_student_ids)"/>
+                                            <t t-foreach="students" t-as="siswa">
                                                 <li>
-                                                    <t t-esc="'%s (%s)' % (siswa.name, siswa.kelas_id.name or '-')"/>
+                                                    <t t-esc="'%s (%s)' % (siswa.name, ', '.join(siswa.kelas_ids.mapped('name')) or '-')"/>
                                                 </li>
                                             </t>
                                         </ul>

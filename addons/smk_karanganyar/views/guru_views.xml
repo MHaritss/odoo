@@ -28,7 +28,11 @@
                         <field name="student_count" readonly="1"/>
                         <field name="kelas_ids" widget="many2many_tags" readonly="1" options="{'no_create': True, 'no_create_edit': True}"></field>
                     </group>
-
+                    <notebook>
+                        <page string="Siswa Diajar">
+                            <field name="teaching_student_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

@@ -24,8 +24,8 @@
                                 <td><span t-field="doc.kelas_id.name"/></td>
                             </tr>
                             <tr>
-                                <td>Guru</td>
-                                <td><span t-field="doc.guru_id.name"/></td>
+                                <td>Guru Pengajar</td>
+                                <td><span t-esc="', '.join(doc.teacher_ids.mapped('name')) or '-'"/></td>
                                 <td>Status</td>
                                 <td><span t-field="doc.state"/></td>
                             </tr>

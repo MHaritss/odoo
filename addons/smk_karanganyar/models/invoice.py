@@ -11,8 +11,8 @@ class SmkInvoice(models.Model):
 
     name = fields.Char(string='Nomor Tagihan', required=True, copy=False, readonly=True, default='New')
     student_id = fields.Many2one('smk.siswa', string='Siswa', required=True, tracking=True)
-    guru_id = fields.Many2one('smk.guru', string='Guru', related='student_id.guru_id', store=True)
-    kelas_id = fields.Many2one('smk.kelas', string='Kelas', related='student_id.kelas_id', store=True)
+    teacher_ids = fields.Many2many('smk.guru', string='Guru Pengajar', related='student_id.teacher_ids', readonly=True)
+    kelas_id = fields.Many2one('smk.kelas', string='Kelas Utama', related='student_id.kelas_id', store=True, readonly=True)
     date_invoice = fields.Date(string='Tanggal Tagihan', default=fields.Date.context_today, tracking=True)
     amount = fields.Monetary(string='Jumlah', currency_field='currency_id', required=True, tracking=True)
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)

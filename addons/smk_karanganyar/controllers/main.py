@@ -10,6 +10,7 @@ class SmkApiController(http.Controller):
         gurus = request.env['smk.guru'].sudo().search([])
         data = []
         for guru in gurus:
+            students = (guru.kelas_ids.mapped('siswa_ids') | guru.teaching_student_ids)
             data.append({
                 'id': guru.id,
                 'name': guru.name,
@@ -21,9 +22,10 @@ class SmkApiController(http.Controller):
                         'id': siswa.id,
                         'name': siswa.name,
                         'class': siswa.kelas_id.name,
+                        'classes': siswa.kelas_ids.mapped('name'),
                         'active': siswa.active,
                     }
-                    for siswa in guru.siswa_ids
+                    for siswa in students
                 ],
             })
         body = json.dumps({'data': data})
@@ -37,34 +39,40 @@ class SmkApiController(http.Controller):
         if missing:
             return {'error': f"Field {', '.join(missing)} wajib diisi."}
 
+        kelas_ids = payload.get('kelas_ids') or []
+        primary_kelas_id = payload.get('kelas_id')
+        if primary_kelas_id and primary_kelas_id not in kelas_ids:
+            kelas_ids.append(primary_kelas_id)
+        if not primary_kelas_id and kelas_ids:
+            primary_kelas_id = kelas_ids[0]
+
+        if not primary_kelas_id:
+            return {'error': 'Minimal satu kelas wajib dipilih.'}
+
+        kelas_records = request.env['smk.kelas'].sudo().browse(kelas_ids)
+        if len(kelas_records) != len(kelas_ids):
+            return {'error': 'Sebagian kelas tidak ditemukan.'}
+
+        teacher_ids = payload.get('teacher_ids') or []
+        teacher_records = request.env['smk.guru'].sudo().browse(teacher_ids)
+        if len(teacher_records) != len(teacher_ids):
+            return {'error': 'Sebagian guru tidak ditemukan.'}
+
         siswa_vals = {
             'name': payload.get('name'),
             'nis': payload.get('nis'),
-            'guru_id': payload.get('guru_id'),
-            'kelas_id': payload.get('kelas_id'),
+            'kelas_id': primary_kelas_id,
+            'kelas_ids': [(6, 0, kelas_ids)],
+            'teacher_ids': [(6, 0, teacher_ids)],
             'phone': payload.get('phone'),
             'address': payload.get('address'),
         }
-        if siswa_vals['kelas_id'] and not siswa_vals['guru_id']:
-            kelas = request.env['smk.kelas'].sudo().browse(siswa_vals['kelas_id'])
-            if kelas:
-                siswa_vals['guru_id'] = kelas.guru_id.id
-        if not siswa_vals['guru_id'] or not siswa_vals['kelas_id']:
-            return {'error': 'Guru dan kelas wajib diisi.'}
-
-        guru = request.env['smk.guru'].sudo().browse(siswa_vals['guru_id'])
-        kelas = request.env['smk.kelas'].sudo().browse(siswa_vals['kelas_id'])
-        if not guru:
-            return {'error': 'Guru tidak ditemukan.'}
-        if not kelas:
-            return {'error': 'Kelas tidak ditemukan.'}
-        if kelas.guru_id and kelas.guru_id.id != guru.id:
-            return {'error': 'Guru dan kelas tidak sesuai.'}
 
         siswa = request.env['smk.siswa'].sudo().create(siswa_vals)
         return {
             'id': siswa.id,
             'name': siswa.name,
-            'guru_id': siswa.guru_id.id,
             'kelas_id': siswa.kelas_id.id,
+            'kelas_ids': siswa.kelas_ids.ids,
+            'teacher_ids': siswa.teacher_ids.ids,
         }

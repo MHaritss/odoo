@@ -7,7 +7,7 @@
                 <field name="name"/>
                 <field name="nis"/>
                 <field name="kelas_id"/>
-                <field name="kelas_history_ids" widget="many2many_tags"/>
+                <field name="kelas_ids" widget="many2many_tags"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -23,7 +23,7 @@
                         <field name="name"/>
                         <field name="nis"/>
                         <field name="kelas_id"/>
-                        <field name="kelas_history_ids" widget="many2many_tags" readonly="1" options="{'no_create': True, 'no_create_edit': True}"/>
+                        <field name="kelas_ids" widget="many2many_tags"/>
                         <field name="phone" widget="phone"/>
                         <field name="address"/>
                         <field name="active"/>

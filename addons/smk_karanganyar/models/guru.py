@@ -9,8 +9,13 @@ class SmkGuru(models.Model):
     name = fields.Char(string='Nama', required=True, tracking=True)
     address = fields.Text(string='Alamat')
     phone = fields.Char(string='Nomor Telepon', required=True, tracking=True)
-    kelas_ids = fields.One2many('smk.kelas', 'guru_id', string='Kelas Diampu')
-    siswa_ids = fields.One2many('smk.siswa', 'guru_id', string='Siswa Wali')
+    kelas_ids = fields.Many2many(
+        'smk.kelas',
+        'smk_guru_kelas_rel',
+        'guru_id',
+        'kelas_id',
+        string='Kelas Diampu',
+    )
     teaching_student_ids = fields.Many2many(
         'smk.siswa',
         'smk_guru_student_rel',
@@ -29,7 +34,7 @@ class SmkGuru(models.Model):
         ('unique_phone', 'unique(phone)', 'Nomor telepon guru harus unik.'),
     ]
 
-    @api.depends('kelas_ids.siswa_ids.active', 'teaching_student_ids.active')
+    @api.depends('kelas_ids', 'kelas_ids.siswa_ids', 'kelas_ids.siswa_ids.active', 'teaching_student_ids', 'teaching_student_ids.active')
     def _compute_student_count(self):
         for guru in self:
             students = (guru.kelas_ids.mapped('siswa_ids') | guru.teaching_student_ids).filtered(lambda s: s.active)

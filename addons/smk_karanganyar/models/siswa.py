@@ -8,14 +8,15 @@ class SmkSiswa(models.Model):
 
     name = fields.Char(string='Nama', required=True, tracking=True)
     nis = fields.Char(string='NIS', tracking=True)
-    kelas_id = fields.Many2one('smk.kelas', string='Kelas', tracking=True, required=True)
-    guru_id = fields.Many2one(
-        'smk.guru',
-        string='Wali Kelas',
-        related='kelas_id.guru_id',
-        store=True,
-        readonly=True,
+    kelas_id = fields.Many2one('smk.kelas', string='Kelas Utama', tracking=True, required=True)
+    kelas_ids = fields.Many2many(
+        'smk.kelas',
+        'smk_siswa_kelas_rel',
+        'siswa_id',
+        'kelas_id',
+        string='Kelas Diikuti',
         tracking=True,
+        help='Daftar kelas yang saat ini diikuti siswa.',
     )
     teacher_ids = fields.Many2many(
         'smk.guru',
@@ -23,14 +24,6 @@ class SmkSiswa(models.Model):
         'siswa_id',
         'guru_id',
         string='Guru Pengajar',
-    )
-    kelas_history_ids = fields.Many2many(
-        'smk.kelas',
-        'smk_siswa_kelas_rel',
-        'siswa_id',
-        'kelas_id',
-        string='Riwayat Kelas',
-        help='Daftar kelas yang pernah diikuti siswa.',
     )
     phone = fields.Char(string='Nomor Telepon Wali')
     address = fields.Text(string='Alamat')
@@ -42,17 +35,35 @@ class SmkSiswa(models.Model):
     @api.model
     def create(self, vals):
         record = super().create(vals)
-        record._ensure_history_contains_current_class()
+        record._sync_kelas_selection()
         return record
 
     def write(self, vals):
         res = super().write(vals)
-        if 'kelas_id' in vals:
-            self._ensure_history_contains_current_class()
+        if not self.env.context.get('skip_kelas_sync') and ('kelas_id' in vals or 'kelas_ids' in vals):
+            self._sync_kelas_selection()
         return res
 
-    def _ensure_history_contains_current_class(self):
+    def _sync_kelas_selection(self):
+        if self.env.context.get('skip_kelas_sync'):
+            return
         for student in self:
             kelas = student.kelas_id
-            if kelas and kelas not in student.kelas_history_ids:
-                student.kelas_history_ids = [(4, kelas.id)]
+            if kelas:
+                if kelas not in student.kelas_ids:
+                    student.with_context(skip_kelas_sync=True).write({
+                        'kelas_ids': [(4, kelas.id)],
+                    })
+            else:
+                # If kelas_id is unset but classes exist, pick the first one as primary.
+                if student.kelas_ids:
+                    student.with_context(skip_kelas_sync=True).write({
+                        'kelas_id': student.kelas_ids[0].id,
+                    })
+            class_teachers = student.kelas_ids.mapped('guru_ids')
+            if class_teachers:
+                missing_teachers = class_teachers - student.teacher_ids
+                if missing_teachers:
+                    student.with_context(skip_kelas_sync=True).write({
+                        'teacher_ids': [(4, teacher.id) for teacher in missing_teachers],
+                    })

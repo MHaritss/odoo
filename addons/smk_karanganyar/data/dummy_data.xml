@@ -30,23 +30,23 @@
         <!-- Dummy classes -->
         <record id="smk_karanganyar_demo_kelas_akuntansi" model="smk.kelas">
             <field name="name">X Akuntansi 1</field>
-            <field name="guru_id" ref="smk_karanganyar_demo_guru_andi"/>
+            <field name="guru_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_andi')])]"/>
         </record>
         <record id="smk_karanganyar_demo_kelas_rpl" model="smk.kelas">
             <field name="name">XI RPL 2</field>
-            <field name="guru_id" ref="smk_karanganyar_demo_guru_budi"/>
+            <field name="guru_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_budi')])]"/>
         </record>
         <record id="smk_karanganyar_demo_kelas_tkj" model="smk.kelas">
             <field name="name">XII TKJ 1</field>
-            <field name="guru_id" ref="smk_karanganyar_demo_guru_citra"/>
+            <field name="guru_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_citra')])]"/>
         </record>
         <record id="smk_karanganyar_demo_kelas_teknik" model="smk.kelas">
             <field name="name">XI Teknik Mesin</field>
-            <field name="guru_id" ref="smk_karanganyar_demo_guru_deni"/>
+            <field name="guru_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_deni')])]"/>
         </record>
         <record id="smk_karanganyar_demo_kelas_multimedia" model="smk.kelas">
             <field name="name">X Multimedia</field>
-            <field name="guru_id" ref="smk_karanganyar_demo_guru_eka"/>
+            <field name="guru_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_eka')])]"/>
         </record>
 
         <!-- Dummy students -->
@@ -54,6 +54,7 @@
             <field name="name">Rizky Aditya</field>
             <field name="nis">NIS2024001</field>
             <field name="kelas_id" ref="smk_karanganyar_demo_kelas_akuntansi"/>
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_akuntansi'), ref('smk_karanganyar_demo_kelas_rpl')])]"/>
             <field name="teacher_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_andi'), ref('smk_karanganyar_demo_guru_budi')])]"/>
             <field name="phone">0812300001</field>
             <field name="address">Jl. Cemara No. 2, Karanganyar</field>
@@ -62,6 +63,7 @@
             <field name="name">Siti Kurnia</field>
             <field name="nis">NIS2024002</field>
             <field name="kelas_id" ref="smk_karanganyar_demo_kelas_rpl"/>
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_rpl'), ref('smk_karanganyar_demo_kelas_tkj')])]"/>
             <field name="teacher_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_budi'), ref('smk_karanganyar_demo_guru_citra')])]"/>
             <field name="phone">0812300002</field>
             <field name="address">Jl. Flamboyan No. 8, Karanganyar</field>
@@ -70,6 +72,7 @@
             <field name="name">Dewi Anggraini</field>
             <field name="nis">NIS2024003</field>
             <field name="kelas_id" ref="smk_karanganyar_demo_kelas_tkj"/>
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_tkj'), ref('smk_karanganyar_demo_kelas_teknik')])]"/>
             <field name="teacher_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_citra'), ref('smk_karanganyar_demo_guru_deni')])]"/>
             <field name="phone">0812300003</field>
             <field name="address">Jl. Mawar No. 4, Karanganyar</field>
@@ -78,6 +81,7 @@
             <field name="name">Fajar Nugroho</field>
             <field name="nis">NIS2024004</field>
             <field name="kelas_id" ref="smk_karanganyar_demo_kelas_teknik"/>
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_teknik'), ref('smk_karanganyar_demo_kelas_multimedia')])]"/>
             <field name="teacher_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_deni'), ref('smk_karanganyar_demo_guru_eka')])]"/>
             <field name="phone">0812300004</field>
             <field name="address">Jl. Anggrek No. 11, Karanganyar</field>
@@ -86,6 +90,7 @@
             <field name="name">Lia Prameswari</field>
             <field name="nis">NIS2024005</field>
             <field name="kelas_id" ref="smk_karanganyar_demo_kelas_multimedia"/>
+            <field name="kelas_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_kelas_multimedia'), ref('smk_karanganyar_demo_kelas_akuntansi')])]"/>
             <field name="teacher_ids" eval="[(6, 0, [ref('smk_karanganyar_demo_guru_eka'), ref('smk_karanganyar_demo_guru_andi')])]"/>
             <field name="phone">0812300005</field>
             <field name="address">Jl. Kamboja No. 9, Karanganyar</field>
