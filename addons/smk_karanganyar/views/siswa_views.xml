@@ -8,6 +8,7 @@
                 <field name="nis"/>
                 <field name="guru_id"/>
                 <field name="kelas_id"/>
+                <field name="teacher_ids" widget="many2many_tags"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -23,7 +24,8 @@
                         <field name="name"/>
                         <field name="nis"/>
                         <field name="kelas_id"/>
-                        <field name="guru_id"/>
+                        <field name="guru_id" readonly="1"/>
+                        <field name="teacher_ids" widget="many2many_tags"/>
                         <field name="phone" widget="phone"/>
                         <field name="address"/>
                         <field name="active"/>
